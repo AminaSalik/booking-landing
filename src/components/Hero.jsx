@@ -13,7 +13,7 @@ function Hero() {
           <div className="card">
             <div className="header">
               <h1 className="text-white">GET MORE APPOINTMENTS</h1>
-              <p className="text-whitgite">Turn visitors into real clients.</p>
+              <p className="text-white">Turn visitors into real clients.</p>
             </div>
             <Benefits />
             <Cta />

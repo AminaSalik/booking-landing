@@ -15,7 +15,7 @@ function Hero() {
               {/* <div className="icon calendar">
                 <FaRegCalendarAlt className="calenderEcon" />
               </div> */}
-              <h1>GET MORE APPOINTMENTS</h1>
+              <h1 className="text-white">GET MORE APPOINTMENTS</h1>
               <p>Turn visitors into real clients.</p>
             </div>
 

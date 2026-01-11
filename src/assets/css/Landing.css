@@ -5,13 +5,38 @@
     --third: #e27fcb;
 }
 
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
 .shape {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
     background: linear-gradient(45deg, var(--primary) 0%, var(--secondary) 100%);
     animation: morph 8s ease-in-out infinite;
     border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
     height: 228px;
     transition: all 1s ease-in-out;
     width: 228px;
+}
+
+.shape-content {
+    position: absolute;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: white;
+    font-weight: 600;
+    z-index: 2;
+}
+
+.mobile-icon {
+    font-size: 40px;
 }
 
 @keyframes morph {
@@ -59,10 +84,53 @@
 
 }
 
-.item div {
-    position: absolute;
-    top: 46%;
-    left: 48%;
+.item-content {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    pointer-events: none;
+}
+
+.content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    color: #000000;
+    font-weight: 600;
+    z-index: 5;
+}
+
+.check-icon {
+    font-size: 38px;
+    color: #4cff8f;
+}
+
+.bolt-icon {
+    font-size: 42px;
+    color: #ffd84d;
+}
+
+.bolt-icon {
+    filter: drop-shadow(0 0 8px rgba(255, 216, 77, 0.8));
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.15);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+}
+
+.bolt-icon {
+    animation: pulse 1.8s infinite;
 }
 
 .item:nth-child(1) {
@@ -73,7 +141,7 @@
 
 .item:nth-child(2) {
     color: red;
-    background: #ffffff;
+    background: #000000;
     border-radius: 26% 74% 19% 81% / 69% 27% 73% 31%;
     animation: anim_1 44s linear infinite normal;
 }
@@ -82,8 +150,6 @@
     background: transparent;
     border-radius: 100%;
 }
-
-
 
 .card {
     width: 100%;

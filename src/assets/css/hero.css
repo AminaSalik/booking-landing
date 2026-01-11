@@ -1,0 +1,14 @@
+.hero {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background: linear-gradient(
+    120deg,
+    #a6c0fe 0%,
+    #f68084 100%
+  );
+  position: relative;
+  isolation: isolate;
+}

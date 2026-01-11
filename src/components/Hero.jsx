@@ -1,23 +1,30 @@
-
-import React from "react";
-
-
+import "../assets/css/hero.css";
+import Benefits from "./Benefits";
+import Cta from "./CTA";
+import "../assets/css/Landing.css";
+import { FaRegCalendarAlt } from "react-icons/fa";
 
 
 function Hero() {
   return (
-    <section className="vh-100 d-flex align-items-center bg-light">
+    <section className="vh-100 d-flex align-items-center hero ">
       <div className="container text-center">
-        <h1 className="fw-bold">
-          Book More Appointments  
-          <br /> With a High-Converting Landing Page
-        </h1>
-        <p className="text-muted mt-3">
-          Turn visitors into real clients using a fast React landing page
-        </p>
-        <a href="#booking" className="btn btn-primary btn-lg mt-4">
-          Book Your Appointment
-        </a>
+        <div className="page">
+          <div className="card">
+            <div className="header">
+              {/* <div className="icon calendar">
+                <FaRegCalendarAlt className="calenderEcon" />
+              </div> */}
+              <h1>GET MORE APPOINTMENTS</h1>
+              <p>Turn visitors into real clients.</p>
+            </div>
+
+            <Benefits />
+
+            <Cta />
+
+          </div>
+        </div>
       </div>
     </section>
   );

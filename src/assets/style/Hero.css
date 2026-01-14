@@ -1,0 +1,66 @@
+
+
+
+.card__grid {
+  display: grid;
+grid-template-columns: 280px;
+  place-content:center;
+gap:2em;
+}
+
+.card--1 {
+  align-self: start;
+}
+.card--2 {
+   align-self: start;
+}
+.card--3 {
+  align-self: start;
+}
+.card--4 {
+    align-self: end;
+}
+.span__{
+  color: #d4af37;
+}
+
+.btnSubscr{
+  background: linear-gradient(to bottom, #d4af37, #aa8803);
+}
+@media screen and (min-width:1280px){
+.card__grid {
+  display: grid;
+grid-template-columns: repeat(auto-fit,minmax(3.75em,1fr)); 
+  grid-template-rows: 7.375em 12em 7.375em; 
+    column-gap:2em;
+  row-gap:2.1em;
+}
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        /* ===== CSS Reset e Variáveis Globais ===== */
+     

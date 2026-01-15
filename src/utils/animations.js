@@ -76,42 +76,43 @@ export class ParticleSystem {
 ========================= */
 export class OrbController {
   constructor() {
-    this.element = document.getElementById("centralOrb")
-    if (!this.element) return
-
-    this.init()
+    // This targets all containers with the orb-canvas class
+    this.elements = document.querySelectorAll(".orb-canvas");
+    if (this.elements.length === 0) return;
+    this.init();
   }
 
   init() {
-    this.element.addEventListener("mousemove", (e) => {
-      const rect = this.element.getBoundingClientRect()
-      const x = e.clientX - rect.left
-      const y = e.clientY - rect.top
+    this.elements.forEach((el) => {
+      el.addEventListener("mousemove", (e) => {
+        const rect = el.getBoundingClientRect();
+        const x = e.clientX - rect.left;
+        const y = e.clientY - rect.top;
+        const centerX = rect.width / 2;
+        const centerY = rect.height / 2;
 
-      const centerX = rect.width / 2
-      const centerY = rect.height / 2
+        const rotateX = (y - centerY) / 20; 
+        const rotateY = -(x - centerX) / 20;
 
-      const rotateX = (y - centerY) / 20
-      const rotateY = -(x - centerX) / 20
+        el.style.transform = `perspective(1000px) rotateX(${rotateX}deg) rotateY(${rotateY}deg) scale(1.02)`;
+      });
 
-      this.element.style.transform = `
-        perspective(800px)
-        rotateX(${rotateX}deg)
-        rotateY(${rotateY}deg)
-        scale(1.05)
-      `
-    })
-
-    this.element.addEventListener("mouseleave", () => {
-      this.element.style.transform = `
-        perspective(800px)
-        rotateX(0deg)
-        rotateY(0deg)
-        scale(1)
-      `
-    })
+      el.addEventListener("mouseleave", () => {
+        el.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale(1)`;
+      });
+    });
   }
 }
+// Keep your ParticleSystem, BackgroundController, and ButtonController as they were
+
+
+
+
+
+
+
+
+
 
 /* =========================
    Background Controller

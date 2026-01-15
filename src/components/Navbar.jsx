@@ -55,6 +55,9 @@ export default function Navbar() {
           </div>
         </div>
 
+{/* ======================================================================= */}
+
+
        <div className="hero-visual">
   <div className="hero-image-wrapper" id="centralOrb">
     <img
@@ -64,7 +67,7 @@ export default function Navbar() {
     />
   </div>
 </div>
-
+{/* ====================================================================== */}
       </div>
 
       <div className="scroll-indicator">

@@ -3,20 +3,20 @@ import "../assets/style/Benefits.css";
 
 const cardsData = [
   {
-    title: "Creative Design",
+    title: "Real-Time Smart Agenda",
     progress: 85,
-    text: "Explore innovative design solutions with our cutting-edge approach to modern UI/UX development.",
+    text: "View live availability and secure your slot with a single click. Our agenda is always up-to-date, ensuring no double bookings and zero wait times",
   },
   {
-    title: "Smart Features",
+    title: "Direct WhatsApp Integration",
     progress: 75,
-    text: "Implement intelligent features that enhance user experience and streamline interactions.",
-  
+    text: "One-Click WhatsApp Support Description: Have a quick question before you book? Use our integrated WhatsApp button to chat directly with the specialist or their support team for instant peace of mind.",
+
   },
   {
-    title: "Modern Solutions",
+    title: "Automated Confirmation",
     progress: 90,
-    text: "Leverage the latest technologies to create seamless and responsive user interfaces.",
+    text: "Every booking generates a unique digital ticket sent straight to your phone. Get automated reminders via SMS or WhatsApp so you never miss an important date.",
 
   },
 ];
@@ -55,40 +55,35 @@ export default function Benefits() {
 
   return (
 
-
     <>
-               <header className="booking-header">
-               <h2 className="w-full text-3xl  text-center sm:text-4xl md:text-5xl text-white"> Appointment Booking</h2>
-      <p className="w-full py-8 mx-auto -mt-2 text-lg text-center text-white intro sm:max-w-3xl">Select a date and time for your Booking</p>
-            </header>
-
-    <div className="hero_">
-
-      
- <div className="container">
-      {cardsData.map((card, index) => (
-        <div
-          key={index}
-          className="card"
-          ref={(el) => (cardRefs.current[index] = el)}
-          onMouseMove={(e) => handleMouseMove(e, index)}
-          onMouseLeave={() => handleMouseLeave(index)}
-        >
-          <h2>{card.title}</h2>
-          <div className="progress-bar">
-            <div
-              className="progress"
-              style={{ width: `${card.progress}%` }}
-            ></div>
+      <div className="px-8 py-20">
+        <header className="booking-header ">
+          <h2 className=" w-full text-3xl  text-center sm:text-4xl md:text-5xl text-white"> Seamless Booking, Simplified for You</h2>
+          <p className="w-full py-8 mx-auto -mt-2 text-lg text-center text-white intro sm:max-w-3xl">Our live agenda provides instant access to available slots. Experience the future of appointment management with real-time updates and direct communication."</p>
+        </header>
+        <div className="hero_">
+          <div className="container">
+            {cardsData.map((card, index) => (
+              <div
+                key={index}
+                className="card"
+                ref={(el) => (cardRefs.current[index] = el)}
+                onMouseMove={(e) => handleMouseMove(e, index)}
+                onMouseLeave={() => handleMouseLeave(index)}
+              >
+                <h2>{card.title}</h2>
+                <div className="progress-bar">
+                  <div
+                    className="progress"
+                    style={{ width: `${card.progress}%` }}
+                  ></div>
+                </div>
+                <p>{card.text}</p>
+              </div>
+            ))}
           </div>
-          <p>{card.text}</p>
-        
         </div>
-      ))}
-    </div>
-    </div>
+      </div>
     </>
-
-   
   );
 }

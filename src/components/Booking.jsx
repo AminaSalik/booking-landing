@@ -100,100 +100,109 @@ function BookingApp() {
     };
 
     return (
-        <div className="booking-container">
-            <header className="booking-header">
-                <h2 className="text-white text-center">Appointment Booking</h2>
-                {/* Modern Step Indicator */}
-                <div style={{ display: 'flex', justifyContent: 'center', gap: '15px', marginTop: '20px' }}>
-                    {[1, 2, 3].map(i => (
-                        <div key={i} className={`booking-day ${step >= i ? 'booking-selected' : 'booking-unavailable'}`} style={{ width: '35px', height: '35px', cursor: 'default' }}>{i}</div>
-                    ))}
+        <div className="booking-page-wrapper">
+            {/* Left Section: Image with Slanted Cut */}
+            <div className="booking-side-image">
+                <div className="image-content-overlay">
+                    <h1>Experience Excellence</h1>
+                    <p>Secure your premium slot in just a few clicks.</p>
                 </div>
-            </header>
+            </div>
 
-            {/* STEP 1: CALENDAR */}
-            {step === 1 && (
-                <div className="booking-card">
-                    <div className="booking-calendar-header">
-                        <button onClick={() => navigateMonth(-1)}>&lt;</button>
-                        <h2 className='booking-text-black'>{monthNames[currentMonth]} {currentYear}</h2>
-                        <button onClick={() => navigateMonth(1)}>&gt;</button>
-                    </div>
-                    <div className="booking-weekdays">
-                        {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => <div key={d}>{d}</div>)}
-                    </div>
-                    <div className="booking-days">
-                        {generateCalendarDays().map((d, idx) => (
-                            <div key={idx} 
-                                className={`booking-day ${d.status} ${selectedDate === d.date ? 'booking-selected' : ''}`}
-                                onClick={() => { if (d.status === 'booking-available') { setSelectedDate(d.date); setStep(2); } }}>
-                                {d.day}
+            {/* Right Section: Glass Booking Form */}
+            <div className="booking-main-content">
+                <div className="booking-container glass-card">
+                    <header className="booking-header">
+                        <h2 className="text-white">Appointment Booking</h2>
+                        <div className="booking-steps-nav">
+                            {[1, 2, 3].map(i => (
+                                <div key={i} className={`booking-step-dot ${step >= i ? 'active' : ''}`}>{i}</div>
+                            ))}
+                        </div>
+                    </header>
+
+                    {/* STEP 1: CALENDAR */}
+                    {step === 1 && (
+                        <div className="booking-card-inner">
+                            <div className="booking-calendar-header">
+                                <button onClick={() => navigateMonth(-1)}>&lt;</button>
+                                <h3 className="text-white">{monthNames[currentMonth]} {currentYear}</h3>
+                                <button onClick={() => navigateMonth(1)}>&gt;</button>
                             </div>
-                        ))}
-                    </div>
-                </div>
-            )}
-
-            {/* STEP 2: TIME SLOTS */}
-            {step === 2 && (
-                <div className="booking-card booking-visible">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                        <h2 className='booking-text-black'>Select Time</h2>
-                        <button onClick={() => setStep(1)} style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', textDecoration: 'underline' }}>Change Date</button>
-                    </div>
-                    <p style={{marginBottom: '15px'}}>Date: {formatSelectedDate(selectedDate)}</p>
-                    <div className="booking-time-slots-container">
-                        {generateTimeSlots().map(slot => (
-                            <div key={slot.time} 
-                                className={`booking-time-slot ${slot.status}`}
-                                onClick={() => {
-                                    if (slot.status === 'booking-available') { 
-                                        setSelectedTime(slot.time); 
-                                        setStep(3); // Direct transition to details
-                                    }
-                                }}>
-                                {formatTimeDisplay(slot.time)}
+                            <div className="booking-weekdays">
+                                {['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'].map(d => <div key={d}>{d}</div>)}
                             </div>
-                        ))}
-                    </div>
+                            <div className="booking-days">
+                                {generateCalendarDays().map((d, idx) => (
+                                    <div key={idx} 
+                                        className={`booking-day ${d.status} ${selectedDate === d.date ? 'booking-selected' : ''}`}
+                                        onClick={() => { if (d.status === 'booking-available') { setSelectedDate(d.date); setStep(2); } }}>
+                                        {d.day}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* STEP 2: TIME SLOTS */}
+                    {step === 2 && (
+                        <div className="booking-card-inner">
+                            <div className="booking-inner-header">
+                                <h3 className="text-white">Select Time</h3>
+                                <button className="back-link" onClick={() => setStep(1)}>Change Date</button>
+                            </div>
+                            <p className="selection-info">Selected Date: {formatSelectedDate(selectedDate)}</p>
+                            <div className="booking-time-slots-grid">
+                                {generateTimeSlots().map(slot => (
+                                    <div key={slot.time} 
+                                        className={`booking-time-slot ${slot.status}`}
+                                        onClick={() => {
+                                            if (slot.status === 'booking-available') { 
+                                                setSelectedTime(slot.time); 
+                                                setStep(3); 
+                                            }
+                                        }}>
+                                        {formatTimeDisplay(slot.time)}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
+
+                    {/* STEP 3: DETAILS */}
+                    {step === 3 && (
+                        <div className="booking-card-inner">
+                            <div className="booking-inner-header">
+                                <h3 className="text-white">Your Details</h3>
+                                <button className="back-link" onClick={() => setStep(2)}>Back to Time</button>
+                            </div>
+                            <p className="selection-info highlight">{formatSelectedDate(selectedDate)} at {formatTimeDisplay(selectedTime)}</p>
+
+                            <div className="booking-form-group">
+                                <label>First Name</label>
+                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="John" />
+                            </div>
+                            <div className="booking-form-group">
+                                <label>Last Name</label>
+                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Doe" />
+                            </div>
+                            <div className="booking-form-group">
+                                <label>Email Address</label>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="john@example.com" />
+                            </div>
+
+                            <button className="booking-confirm-btn" onClick={handleBooking} disabled={!firstName || !lastName || !email}>
+                                Confirm Booking
+                            </button>
+                        </div>
+                    )}
                 </div>
-            )}
-
-            {/* STEP 3: DETAILS FORM */}
-            {step === 3 && (
-                <div className="booking-card booking-details-card">
-                    <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: '10px' }}>
-                        <h2 className='booking-text-black'>Appointment Details</h2>
-                        <button onClick={() => setStep(2)} style={{ background: 'none', border: 'none', color: '#666', cursor: 'pointer', textDecoration: 'underline' }}>Back to Time</button>
-                    </div>
-                    
-                    <div className="booking-selected-time-display">
-                        <p className="booking-time-display">
-                            {formatSelectedDate(selectedDate)} at {formatTimeDisplay(selectedTime)}
-                        </p>
-                    </div>
-
-                    <div className="booking-form-group">
-                        <label className="booking-required-field">First Name</label>
-                        <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="Enter your first name" />
-                    </div>
-                    <div className="booking-form-group">
-                        <label className="booking-required-field">Last Name</label>
-                        <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Enter your last name" />
-                    </div>
-                    <div className="booking-form-group">
-                        <label className="booking-required-field">Email</label>
-                        <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Enter your email" />
-                    </div>
-
-                    <button className="booking-btn-primary" onClick={handleBooking} disabled={!firstName || !lastName || !email}>Save Booking</button>
-                </div>
-            )}
+            </div>
 
             {/* Toast Notification */}
             <div className={`booking-toast-notification ${showToast ? 'booking-show' : ''}`}>
                 <div className="booking-toast-icon">✓</div>
-                <div className="booking-toast-message">Your appointment has been successfully booked!</div>
+                <div className="booking-toast-message">Booking Confirmed Successfully!</div>
             </div>
         </div>
     );

@@ -25,7 +25,7 @@ export default function Hero() {
           <div className="max-w-xl mx-auto xl:max-w-2xl xl:-mt-8">
             <h1 className="text-3xl xl:text-5xl font-semibold xl:leading-snug text-white 2xl:text-6xl 2xl:leading-snug">Appointments <span className="span__">Faster </span> for your Business</h1>
             <p className="xl:leading-9 text-white xl:text-lg mt-3 mb-10">Streamline your schedule and give your clients the seamless booking experience they deserve.</p>
-            <button className="btnSubscr text-white rounded-lg py-3.5 px-5 tracking-wider text-sm hover:bg-purple-800 shadow-lg inline-block">Get Started</button>
+            <button className="btnSubscr text-white rounded-lg py-3.5 px-5 tracking-wider text-sm hover:bg-purple-800 shadow-lg inline-block">booking now</button>
 
             <div className="flex items-center max-w-sm justify-between mt-16 mx-auto text-center lg:text-left lg:mx-0 text-white">
               <div>

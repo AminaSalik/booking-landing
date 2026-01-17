@@ -1,4 +1,5 @@
 import Hero from"./components/Hero" 
+import Dashboard from"./components/AdminDashboard" 
 
 
 
@@ -8,6 +9,7 @@ function App() {
 
   return (
  <Hero/>
+  // <Dashboard/>
 
 
 

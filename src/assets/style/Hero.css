@@ -15,17 +15,6 @@
   50% { transform: translateY(-12px); }
 }
 
-
-
-
-
-
-
-
-
-
-
-
 .card__grid {
   display: grid;
 grid-template-columns: 280px;
@@ -50,7 +39,11 @@ gap:2em;
 }
 
 .btnSubscr{
-  background: linear-gradient(to bottom, #d4af37, #aa8803);
+ background: linear-gradient(to bottom, #d4af37, #aa8803);
+    color: white;
+    border-radius: 50px;
+    box-shadow: 0 10px 30px rgba(177, 151, 151, 0.3);
+  
 }
 @media screen and (min-width:1280px){
 .card__grid {

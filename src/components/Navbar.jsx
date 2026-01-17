@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import "../assets/style/Navbar.css";
 import Booking from "../assets/img/Booking.png";
+import { Link } from 'react-router-dom';
 import { ParticleSystem, OrbController, BackgroundController, ButtonController } from "../utils/animations";
 
 export default function Navbar() {
@@ -22,9 +23,17 @@ export default function Navbar() {
           <div className="nav-logo">GLOW<span>APP</span></div>
           
           <div className={`nav-links ${isMenuOpen ? "active" : ""}`}>
-            <a href="#dashboard" className="admin-link" onClick={() => setIsMenuOpen(false)}>Admin Dashboard</a>
-            <button className="btn nav-btn">Booking Now</button>
-          </div>
+    {/* 2. تغيير وسم a إلى Link وتغيير href إلى to */}
+    <Link 
+        to="/admin" 
+        className="admin-link" 
+        onClick={() => setIsMenuOpen(false)}
+    >
+        Login
+    </Link>
+    
+    <button className="btn nav-btn">Booking Now</button>
+</div>
 
           <div className="mobile-menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <div className={`line ${isMenuOpen ? "open" : ""}`}></div>

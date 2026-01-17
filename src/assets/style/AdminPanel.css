@@ -1,0 +1,162 @@
+:root {
+    --admin-gold: #d4af37;
+    --admin-bg: #120a0a;
+    --glass-effect: rgba(255, 255, 255, 0.05);
+}
+
+.login-page-wrapper {
+    display: flex;
+    min-height: 100vh;
+    background-color: var(--admin-bg);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+
+.login-side-image {
+    flex: 1.2;
+    background-image: url('../img/Booking.png'); /* استخدم نفس صورة الحجز لتوحيد الهوية */
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    padding: 60px;
+}
+
+.login-side-image::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: linear-gradient(to top, rgba(18, 10, 10, 0.9), transparent);
+}
+
+.image-overlay-content {
+    position: relative;
+    z-index: 2;
+    color: white;
+}
+
+.image-overlay-content h2 {
+    font-size: 3rem;
+    margin-bottom: 10px;
+    color: var(--admin-gold);
+}
+
+
+.login-main-content {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+}
+
+.login-glass-card {
+    width: 100%;
+    max-width: 450px;
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    padding: 50px;
+    border-radius: 30px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+}
+
+.login-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.login-header h1 {
+    color: white;
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.login-header p {
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.9rem;
+}
+
+.login-input-group {
+    margin-bottom: 25px;
+}
+
+.login-input-group label {
+    display: block;
+    color: var(--admin-gold);
+    font-size: 0.85rem;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.login-input-group input {
+    width: 100%;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 12px;
+    color: white;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.login-input-group input:focus {
+    border-color: var(--admin-gold);
+    background: rgba(255, 255, 255, 0.1);
+    outline: none;
+}
+
+.login-error-msg {
+    background: rgba(255, 77, 77, 0.1);
+    color: #ff4d4d;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 20px;
+    text-align: center;
+    border: 1px solid rgba(255, 77, 77, 0.2);
+}
+
+.login-btn {
+    width: 100%;
+    padding: 16px;
+    background: linear-gradient(135deg, #d4af37, #aa8803);
+    border: none;
+    border-radius: 12px;
+    color: #120a0a;
+    font-weight: bold;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: 0.3s transform;
+}
+
+.login-btn:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+}
+
+.login-footer {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.back-to-site {
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: 0.3s;
+}
+
+.back-to-site:hover {
+    color: var(--admin-gold);
+}
+
+/* Responsive */
+@media (max-width: 1000px) {
+    .login-side-image { display: none; }
+    .login-main-content { flex: 1; background: var(--admin-bg); }
+}

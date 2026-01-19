@@ -1,27 +1,10 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../assets/style/Booking.css';
 import { db } from '../config/firebaseConfig';
-import { collection, addDoc, serverTimestamp } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, onSnapshot, query } from "firebase/firestore";
 import emailjs from '@emailjs/browser';
-
-// Import Phone Input and its styles
 import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
-
-const timeSlotStatuses = {
-    '2026-04-11': {
-        '09:00': 'reserved', '09:30': 'reserved', '10:00': 'unavailable',
-        '10:30': 'unavailable', '11:00': 'reserved', '11:30': 'reserved',
-        '12:00': 'unavailable', '12:30': 'unavailable', '13:00': 'available',
-        '13:30': 'available', '14:00': 'available', '14:30': 'available',
-        '15:00': 'available', '15:30': 'available', '16:00': 'available',
-        '16:30': 'reserved', '17:00': 'available', '17:30': 'available',
-    },
-};
-
-const dateStatuses = {
-    '2026-04-01': 'available', '2026-04-05': 'reserved', '2026-04-20': 'unavailable',
-};
 
 function BookingApp() {
     const today = new Date();
@@ -32,68 +15,54 @@ function BookingApp() {
     const [selectedTime, setSelectedTime] = useState(null);
     const [firstName, setFirstName] = useState('');
     const [lastName, setLastName] = useState('');
-    const [email, setEmail] = useState(''); // New Email State
+    const [email, setEmail] = useState('');
     const [number, setNumber] = useState('');
-
-    // Email OTP States
     const [verificationCode, setVerificationCode] = useState('');
     const [generatedOtp, setGeneratedOtp] = useState('');
-
     const [showToast, setShowToast] = useState(false);
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [toastMessage, setToastMessage] = useState({ text: "Booking Sent! ✅", isError: false });
+    const [toastMessage, setToastMessage] = useState({ text: "", isError: false });
     const [errors, setErrors] = useState({});
+
+    // State to hold holiday dates from database
+    const [adminHolidays, setAdminHolidays] = useState([]);
 
     const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
 
-    // --- Email OTP Logic ---
+    // Listen to Holidays from Firestore
+    useEffect(() => {
+        const q = query(collection(db, "holidays"));
+        const unsubscribe = onSnapshot(q, (snap) => {
+            const holidayDates = snap.docs.map(doc => doc.id); // ID is the date string YYYY-MM-DD
+            setAdminHolidays(holidayDates);
+        });
+        return () => unsubscribe();
+    }, []);
+
     const handleSendCode = async () => {
         if (!validateForm()) return;
         setIsSubmitting(true);
-
-        // Generate a random 6-digit code
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedOtp(otp);
-
-        const templateParams = {
-            to_name: firstName,
-            to_email: email,
-            otp_code: otp,
-            from_name: "AMALYZE",
-        };
+        const templateParams = { to_name: firstName, to_email: email, otp_code: otp, from_name: "AMALYZE" };
         emailjs.init("aeA09BV8gXTdUDj0l");
         try {
-            await emailjs.send(
-                'service_8x55t1g',
-                'template_ns3ljzk',
-                templateParams,
-                'aeA09BV8gXTdUDj0I'
-
-            );
-
+            await emailjs.send('service_8x55t1g', 'template_ns3ljzk', templateParams, 'aeA09BV8gXTdUDj0I');
             setStep(4);
-            setToastMessage({ text: "Verification code sent to email! 📧", isError: false });
-            setShowToast(true);
-            setTimeout(() => setShowToast(false), 3000);
+            triggerToast("Verification code sent! 📧");
         } catch (error) {
-            console.error(error);
-            setToastMessage({ text: "Error sending Email. Check your connection.", isError: true });
-            setShowToast(true);
-        } finally {
-            setIsSubmitting(false);
-        }
+            triggerToast("Error sending Email.", true);
+        } finally { setIsSubmitting(false); }
     };
 
     const handleVerifyAndBook = async () => {
         if (verificationCode !== generatedOtp) {
-            setToastMessage({ text: "Invalid code. Try again.", isError: true });
-            setShowToast(true);
+            triggerToast("Invalid verification code.", true);
             return;
         }
-
         setIsSubmitting(true);
         try {
-            const bookingData = {
+            await addDoc(collection(db, "bookings"), {
                 firstName: firstName.trim(),
                 lastName: lastName.trim(),
                 email: email.trim(),
@@ -102,41 +71,30 @@ function BookingApp() {
                 time: selectedTime,
                 status: "verified",
                 createdAt: serverTimestamp()
-            };
-            await addDoc(collection(db, "bookings"), bookingData);
-            setToastMessage({ text: "Booking Confirmed! ✅", isError: false });
-            setShowToast(true);
-            setTimeout(() => {
-                setShowToast(false);
-                resetForm();
-            }, 3000);
-        } catch (error) {
-            alert("Booking failed to reach server.");
-        } finally {
-            setIsSubmitting(false);
-        }
+            });
+            triggerToast("Booking Confirmed! ✅");
+            setTimeout(() => resetForm(), 3000);
+        } catch (error) { alert("Server error. Please try again."); } finally { setIsSubmitting(false); }
+    };
+
+    const triggerToast = (text, isError = false) => {
+        setToastMessage({ text, isError });
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
     };
 
     const resetForm = () => {
-        setStep(1);
-        setSelectedDate(null);
-        setSelectedTime(null);
-        setFirstName('');
-        setLastName('');
-        setNumber('');
-        setEmail('');
-        setVerificationCode('');
-        setGeneratedOtp('');
+        setStep(1); setSelectedDate(null); setSelectedTime(null);
+        setFirstName(''); setLastName(''); setNumber(''); setEmail('');
+        setVerificationCode(''); setGeneratedOtp('');
     };
 
-    // --- Helpers (Same as your original logic) ---
     const navigateMonth = (delta) => {
         let newMonth = currentMonth + delta;
         let newYear = currentYear;
         if (newMonth < 0) { newMonth = 11; newYear--; }
         if (newMonth > 11) { newMonth = 0; newYear++; }
-        setCurrentMonth(newMonth);
-        setCurrentYear(newYear);
+        setCurrentMonth(newMonth); setCurrentYear(newYear);
     };
 
     const formatDateString = (year, month, day) => `${year}-${(month + 1).toString().padStart(2, '0')}-${day.toString().padStart(2, '0')}`;
@@ -146,14 +104,25 @@ function BookingApp() {
         const daysInMonth = new Date(currentYear, currentMonth + 1, 0).getDate();
         const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
         const calendarDays = [];
+        
         for (let i = firstDay; i > 0; i--) {
             calendarDays.push({ day: daysInPrevMonth - i + 1, status: 'booking-other-month', date: null });
         }
+        
         for (let d = 1; d <= daysInMonth; d++) {
             const dateStr = formatDateString(currentYear, currentMonth, d);
             const dateObj = new Date(currentYear, currentMonth, d);
-            let status = dateStatuses[dateStr] || 'booking-available';
-            if (dateObj < new Date(today.setHours(0, 0, 0, 0))) status = 'booking-unavailable';
+            let status = 'booking-available';
+            
+            // 1. Disable Past Dates
+            if (dateObj < new Date(today.setHours(0, 0, 0, 0))) {
+                status = 'booking-unavailable';
+            } 
+            // 2. Disable Dates marked as Holidays by Admin
+            else if (adminHolidays.includes(dateStr)) {
+                status = 'booking-unavailable';
+            }
+
             calendarDays.push({ day: d, status, date: dateStr, isToday: dateObj.toDateString() === new Date().toDateString() });
         }
         return calendarDays;
@@ -161,17 +130,15 @@ function BookingApp() {
 
     const generateTimeSlots = () => {
         if (!selectedDate) return [];
-        const slots = timeSlotStatuses[selectedDate] || {};
-        const defaultSlots = [];
+        const slots = [];
         for (let hour = 9; hour <= 17; hour++) {
             for (let min = 0; min < 60; min += 30) {
                 if (hour === 17 && min > 0) continue;
                 const time = `${hour.toString().padStart(2, '0')}:${min.toString().padStart(2, '0')}`;
-                const status = slots[time] ? `booking-${slots[time]}` : 'booking-available';
-                defaultSlots.push({ time, status });
+                slots.push({ time, status: 'booking-available' });
             }
         }
-        return defaultSlots;
+        return slots;
     };
 
     const formatTimeDisplay = (time24h) => {
@@ -181,18 +148,12 @@ function BookingApp() {
         return `${hour % 12 || 12}:${min.toString().padStart(2, '0')} ${ampm}`;
     };
 
-    const formatSelectedDate = (dateStr) => {
-        if (!dateStr) return '';
-        const d = new Date(dateStr + 'T00:00');
-        return `${d.getDate()} ${monthNames[d.getMonth()]} ${d.getFullYear()}`;
-    };
-
     const validateForm = () => {
         let tempErrors = {};
-        if (firstName.trim().length < 2) tempErrors.firstName = "First name is too short";
-        if (lastName.trim().length < 2) tempErrors.lastName = "Last name is too short";
-        if (!email.includes('@')) tempErrors.email = "Invalid email address";
-        if (number.length < 10) tempErrors.number = "Please enter a valid phone number";
+        if (firstName.trim().length < 2) tempErrors.firstName = "First name required";
+        if (lastName.trim().length < 2) tempErrors.lastName = "Last name required";
+        if (!email.includes('@')) tempErrors.email = "Invalid email";
+        if (number.length < 10) tempErrors.number = "Invalid phone";
         setErrors(tempErrors);
         return Object.keys(tempErrors).length === 0;
     };
@@ -245,17 +206,12 @@ function BookingApp() {
                                 <h3 className="text-white">Select Time</h3>
                                 <button className="back-link" onClick={() => setStep(1)}>Change Date</button>
                             </div>
-                            <p className="selection-info text-white/70">Selected Date: {formatSelectedDate(selectedDate)}</p>
+                            <p className="selection-info text-white/70">Selected: {selectedDate}</p>
                             <div className="booking-time-slots-grid">
                                 {generateTimeSlots().map(slot => (
                                     <div key={slot.time}
                                         className={`booking-time-slot ${slot.status}`}
-                                        onClick={() => {
-                                            if (slot.status === 'booking-available') {
-                                                setSelectedTime(slot.time);
-                                                setStep(3);
-                                            }
-                                        }}>
+                                        onClick={() => { if (slot.status === 'booking-available') { setSelectedTime(slot.time); setStep(3); } }}>
                                         {formatTimeDisplay(slot.time)}
                                     </div>
                                 ))}
@@ -267,37 +223,26 @@ function BookingApp() {
                         <div className="booking-card-inner">
                             <div className="booking-inner-header">
                                 <h3 className="text-white">Your Details</h3>
-                                <button className="back-link" onClick={() => setStep(2)}>Back to Time</button>
+                                <button className="back-link" onClick={() => setStep(2)}>Back</button>
                             </div>
-                            <p className="selection-info highlight text-yellow-400 font-bold">
-                                {formatSelectedDate(selectedDate)} at {formatTimeDisplay(selectedTime)}
-                            </p>
-
                             <div className="booking-form-group">
                                 <label className="text-white/80">First Name</label>
-                                <input type="text" className={errors.firstName ? 'error-border' : ''} value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="John" />
+                                <input type="text" className={errors.firstName ? 'error-border' : ''} value={firstName} onChange={(e) => setFirstName(e.target.value)} />
                                 {errors.firstName && <span className="error-text">{errors.firstName}</span>}
                             </div>
-
                             <div className="booking-form-group">
                                 <label className="text-white/80">Last Name</label>
-                                <input type="text" className={errors.lastName ? 'error-border' : ''} value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Doe" />
-                                {errors.lastName && <span className="error-text">{errors.lastName}</span>}
+                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} />
                             </div>
-
                             <div className="booking-form-group">
-                                <label className="text-white/80">Email (For Verification)</label>
-                                <input type="email" className={errors.email ? 'error-border' : ''} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="your@email.com" />
-                                {errors.email && <span className="error-text">{errors.email}</span>}
+                                <label className="text-white/80">Email</label>
+                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} />
                             </div>
-
                             <div className="booking-form-group">
-                                <label className="text-white/80">Phone Number</label>
-                                <PhoneInput country={'ma'} value={number} onChange={phone => setNumber(phone)} containerClass="phone-container" inputClass="phone-input-field" />
-                                {errors.number && <span className="error-text">{errors.number}</span>}
+                                <label className="text-white/80">Phone</label>
+                                <PhoneInput country={'ma'} value={number} onChange={phone => setNumber(phone)} containerClass="phone-container" />
                             </div>
-
-                            <button className="booking-confirm-btn" onClick={handleSendCode} disabled={!firstName || !lastName || !number || !email || isSubmitting}>
+                            <button className="booking-confirm-btn" onClick={handleSendCode} disabled={!firstName || !number || isSubmitting}>
                                 {isSubmitting ? "Sending Code..." : "Send Verification Code"}
                             </button>
                         </div>
@@ -305,29 +250,15 @@ function BookingApp() {
 
                     {step === 4 && (
                         <div className="booking-card-inner">
-                            <div className="booking-inner-header">
-                                <h3 className="text-white">Enter OTP</h3>
-                                <button className="back-link" onClick={() => setStep(3)}>Back</button>
-                            </div>
-                            <div className="booking-form-group">
-                                <label className="text-white/80">A 6-digit code was sent to {email}</label>
-                                <input
-                                    type="text"
-                                    value={verificationCode}
-                                    onChange={(e) => setVerificationCode(e.target.value)}
-                                    placeholder="000000"
-                                    style={{ textAlign: 'center', fontSize: '24px', letterSpacing: '8px' }}
-                                />
-                            </div>
-                            <button className="booking-confirm-btn" onClick={handleVerifyAndBook} disabled={verificationCode.length < 6 || isSubmitting}>
-                                {isSubmitting ? "Verifying..." : "Confirm Booking Now"}
-                            </button>
+                            <h3 className="text-white">Enter Verification Code</h3>
+                            <p className="text-white/60 mb-4 text-center">Sent to {email}</p>
+                            <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} className="otp-input" style={{ textAlign: 'center', fontSize: '24px', letterSpacing: '4px' }} />
+                            <button className="booking-confirm-btn" onClick={handleVerifyAndBook} disabled={isSubmitting}>Confirm Booking</button>
                         </div>
                     )}
                 </div>
             </div>
 
-            {/* Global Notification Toast */}
             <div className={`booking-toast-notification ${showToast ? 'booking-show' : ''}`}>
                 <div className={`booking-toast-icon ${toastMessage.isError ? 'bg-red-500' : 'bg-green-500'}`}>
                     {toastMessage.isError ? '!' : '✓'}

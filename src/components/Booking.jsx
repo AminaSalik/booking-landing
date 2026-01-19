@@ -275,7 +275,7 @@ function BookingApp() {
                     {step === 3 && (
                         <div className="booking-card-inner">
                             <div className="booking-inner-header">
-                                <h3 className="text-white">Your Details</h3>
+                                <h3 className="text-white">Your Details </h3>
                                 <button className="back-link" onClick={() => setStep(2)}>Back</button>
                             </div>
                             <div className="booking-form-group">

@@ -434,6 +434,13 @@ small {
 .booking-toast-notification.booking-show { bottom: 30px; }
 
 /* Responsive */
+
+@media (max-width: 480px) {
+    .glass-card {
+        padding: 25px;      
+        border-radius: 25px; 
+    }
+}
 @media (max-width: 900px) {
     .booking-page-wrapper { flex-direction: column; }
     .booking-side-image {

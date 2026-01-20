@@ -56,6 +56,7 @@ export default function Benefits() {
   return (
 
     <>
+    <section className="">
       <div className="px-8 py-20">
         <header className="booking-header ">
           <h2 className=" w-full text-3xl  text-center sm:text-4xl md:text-5xl text-white"> Seamless Booking, Simplified for You</h2>
@@ -84,6 +85,8 @@ export default function Benefits() {
           </div>
         </div>
       </div>
+    </section>
+      
     </>
   );
 }

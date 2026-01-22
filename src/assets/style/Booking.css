@@ -175,7 +175,7 @@ small {
 .booking-page-wrapper {
     display: flex;
     min-height: 100vh;
-    background: #120a0a; /* خلفية داكنة جداً لإبراز الزجاج */
+    background: #000000; /* خلفية داكنة جداً لإبراز الزجاج */
     overflow-x: hidden;
 }
 

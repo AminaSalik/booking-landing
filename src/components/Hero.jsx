@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import "../assets/style/Hero.css";
 import Benefits_ from "./Benefits"
+import Services  from './Services'
 import Navbar from "./Navbar"
 import Booking from "./booking" 
 import Doctor from '../assets/img/Doctor.png'
@@ -20,80 +21,94 @@ export default function Hero() {
     <>
       <Navbar/>
 
-      <header className="min-h-screen py-10 px-5 xl:py-0 xl:px-0">
-        <div className="min-h-screen xl:grid place-items-center place-content-center xl:grid-cols-2 xl:max-w-screen-xl mx-auto w-11/12 xl:max-w-screen-2xl gap-14">
-          <div className="max-w-xl mx-auto xl:max-w-2xl xl:-mt-8">
-            <h1 className="text-3xl xl:text-5xl font-semibold xl:leading-snug text-white 2xl:text-6xl 2xl:leading-snug">Appointments <span className="span__">Faster </span> for your Business</h1>
-            <p className="xl:leading-9 text-white xl:text-lg mt-3 mb-10">Streamline your schedule and give your clients the seamless booking experience they deserve.</p>
-            <button className="btnSubscr text-white rounded-lg py-3.5 px-5 tracking-wider text-sm hover:bg-purple-800 shadow-lg inline-block">booking now</button>
+<Services/>
 
-            <div className="flex items-center max-w-sm justify-between mt-16 mx-auto text-center lg:text-left lg:mx-0 text-white">
-              <div>
-                <span className="text-3xl font-semibold text-white">10K+</span>
-                <p className="capitalize mt-2">Appointments Booked</p>
-              </div>
-              <div className="w-0.5 h-12 bg-white" />
-              <div>
-                <span className="text-3xl font-semibold text-white">99%</span>
-                <p className="capitalize mt-2">Client Satisfaction</p>
-              </div>
-            </div>
-          </div>
 
-          <div className="card__grid mt-14 xl:mt-0 sm:justify-items-center">
-            {/* Added orb-canvas to the card container */}
-            <div className="card--1 max-w-xs bg-white shadow-xl rounded-3xl pt-4 pb-8 px-5 lg:row-start-1 lg:row-end-3 orb-canvas">
-              <div className="w-full h-40 lg:h-48 xl:h-56">
-                <img className="w-full h-full object-cover rounded-2xl img-floating" src={Project_Team} alt="Project Team" />
-              </div>
-              <div>
-                <h2 className="capitalize font-semibold text-lg mt-3 mb-2 text-gray-900 ">Project Team</h2>
-                <p className="text-gray-400 text-sm flex justify-between items-center">Team <span className="flex items-center"><svg className="w-5 h-5 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>5.0</span></p>
-              </div>
-            </div>
 
-            <div className="card--2 w-full max-w-xs flex items-center bg-white shadow-xl rounded-3xl w-80 p-5 lg:row-start-1 lg:row-end-2 orb-canvas">
-              <div className="w-20 h-20">
-                <img src={Teacher} alt="Elise Doe" className="rounded-2xl object-cover w-full h-full img-floating" />
-              </div>
-              <div className="ml-4">
-                <h2 className="text-lg text-gray-900 font-semibold capitalize">Teacher</h2>
-                <p className="text-gray-400 mt-1 mb-2 text-sm">Teacher</p>
-                <ul className="flex">
-                  {[...Array(5)].map((_, i) => (
-                    <li key={i}><svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg></li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+   <header className="min-h-screen py-10 px-5 xl:py-0 xl:px-0 bg-black">
+  <div className="min-h-screen xl:grid place-items-center place-content-center xl:grid-cols-2 xl:max-w-screen-xl mx-auto w-11/12 xl:max-w-screen-2xl gap-14">
+    
+    {/* Text Content Area */}
+    <div className="max-w-xl mx-auto xl:max-w-2xl xl:-mt-8">
+      <h1 className="text-3xl xl:text-5xl font-semibold xl:leading-snug text-white 2xl:text-6xl 2xl:leading-snug">
+        Appointments <span className="span__">Faster </span> for your Business
+      </h1>
+      <p className="xl:leading-9 text-gray-300 xl:text-lg mt-3 mb-10">
+        Streamline your schedule and give your clients the seamless booking experience they deserve.
+      </p>
+      
+      <button className="btnSubscr text-white rounded-full py-4 px-8 tracking-wider text-sm font-bold hover:scale-105 transition-transform shadow-lg inline-block">
+        BOOKING NOW
+      </button>
 
-            <div className="card--3 max-w-xs bg-white shadow-xl rounded-3xl pt-4 pb-8 px-5 lg:row-start-2 lg:row-end-5 orb-canvas">
-              <div className="w-full h-40 lg:h-48 xl:h-56">
-                <img className="w-full h-full object-cover rounded-2xl img-floating" src={Lawyer} alt="Galaxy Abstract Paint" />
-              </div>
-              <div>
-                <h2 className="capitalize font-semibold text-lg mt-3 mb-2 text-gray-900">Lawyer</h2>
-                <p className="text-gray-400 flex justify-between items-center text-sm">Lawyer <span className="flex items-center"><svg className="w-5 h-5 mr-1 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>5.0</span></p>
-              </div>
-            </div>
+      {/* Stats Section with Glass Effect */}
+      <div className="flex items-center max-w-sm justify-between mt-16 mx-auto text-center lg:text-left lg:mx-0 text-white bg-white/5 backdrop-blur-md p-6 rounded-2xl border border-white/10">
+        <div>
+          <span className="text-3xl font-semibold text-gold">10K+</span>
+          <p className="capitalize mt-2 text-sm text-gray-400">Appointments Booked</p>
+        </div>
+        <div className="w-px h-12 bg-white/20" />
+        <div>
+          <span className="text-3xl font-semibold text-gold">99%</span>
+          <p className="capitalize mt-2 text-sm text-gray-400">Client Satisfaction</p>
+        </div>
+      </div>
+    </div>
 
-            <div className="card--4 lg:row-start-3 lg:row-end-4 max-w-xs flex items-center bg-white shadow-xl rounded-3xl w-80 p-5 w-full orb-canvas">
-              <div className="w-20 h-20">
-                <img src={Doctor} alt="John Doe" className="rounded-2xl object-cover w-full h-full img-floating" />
-              </div>
-              <div className="ml-4">
-                <h2 className="text-lg text-gray-900 font-semibold capitalize">Doctor</h2>
-                <p className="text-gray-400 mt-1 mb-2 text-sm">Doctor</p>
-                <ul className="flex">
-                   {[...Array(5)].map((_, i) => (
-                    <li key={i}><svg className="w-5 h-5 text-yellow-400" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg></li>
-                  ))}
-                </ul>
-              </div>
-            </div>
+    {/* Cards Grid with Glassmorphism */}
+    <div className="card__grid mt-14 xl:mt-0 sm:justify-items-center">
+      
+      {/* Project Team Card */}
+      <div className="card--1 glass-hero-card orb-canvas lg:row-start-1 lg:row-end-3">
+        <div className="w-full h-40 lg:h-48 xl:h-56 overflow-hidden rounded-2xl">
+          <img className="w-full h-full object-cover img-floating" src={Project_Team} alt="Project Team" />
+        </div>
+        <div>
+          <h2 className="capitalize font-semibold text-lg mt-4 mb-2 text-white">Project Team</h2>
+          <p className="text-gray-400 text-sm flex justify-between items-center">
+            Specialist <span className="flex items-center text-gold"><svg className="w-4 h-4 mr-1 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>5.0</span>
+          </p>
+        </div>
+      </div>
+
+      {/* Teacher Card */}
+      <div className="card--2 glass-hero-card orb-canvas lg:row-start-1 lg:row-end-2 flex items-center">
+        <div className="w-16 h-16 shrink-0">
+          <img src={Teacher} alt="Teacher" className="rounded-xl object-cover w-full h-full img-floating" />
+        </div>
+        <div className="ml-4">
+          <h2 className="text-md text-white font-semibold capitalize">Teacher</h2>
+          <div className="flex text-gold mt-1">
+            {[...Array(5)].map((_, i) => (
+              <svg key={i} className="w-4 h-4 fill-current" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" /></svg>
+            ))}
           </div>
         </div>
-      </header>
+      </div>
+
+      {/* Lawyer Card */}
+      <div className="card--3 glass-hero-card orb-canvas lg:row-start-2 lg:row-end-5">
+        <div className="w-full h-40 lg:h-48 xl:h-56 overflow-hidden rounded-2xl">
+          <img className="w-full h-full object-cover img-floating" src={Lawyer} alt="Lawyer" />
+        </div>
+        <h2 className="capitalize font-semibold text-lg mt-4 text-white">Lawyer</h2>
+        <p className="text-gold text-sm font-bold">Available Now</p>
+      </div>
+
+      {/* Doctor Card */}
+      <div className="card--4 glass-hero-card orb-canvas lg:row-start-3 lg:row-end-4 flex items-center">
+        <div className="w-16 h-16 shrink-0">
+          <img src={Doctor} alt="Doctor" className="rounded-xl object-cover w-full h-full img-floating" />
+        </div>
+        <div className="ml-4">
+          <h2 className="text-md text-white font-semibold capitalize">Medical</h2>
+          <p className="text-gray-400 text-xs mt-1">Certified Doctor</p>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</header>
 
       {/* Showcase Section */}
       <section className="py-20 bg-black">

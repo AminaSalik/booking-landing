@@ -20,7 +20,7 @@ export default function Navbar() {
       {/* Navigation Bar */}
       <nav className="navbar">
         <div className="nav-container">
-          <div className="nav-logo">GLOW<span>APP</span></div>
+          <div className="nav-logo">GLOW<span className="span__">APP</span></div>
           
           <div className={`nav-links ${isMenuOpen ? "active" : ""}`}>
     {/* 2. تغيير وسم a إلى Link وتغيير href إلى to */}

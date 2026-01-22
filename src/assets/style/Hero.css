@@ -1,11 +1,59 @@
-/* Container for the 3D Tilt */
+/* Color Palette */
+:root {
+  --gold: #d4af37;
+  --dark-brown: #3b2323;
+  --glass-bg: rgba(59, 35, 35, 0.4);
+  --glass-border: rgba(212, 175, 55, 0.3);
+}
+
+.text-gold {
+  color: var(--gold);
+}
+
+/* Glassdoor Card Style */
+.glass-hero-card {
+  background: var(--glass-bg);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid var(--glass-border);
+  border-radius: 24px;
+  padding: 1.5rem;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  max-width: 320px;
+  width: 100%;
+}
+
+.glass-hero-card:hover {
+  transform: translateY(-10px) scale(1.02);
+  border-color: var(--gold);
+  background: rgba(59, 35, 35, 0.6);
+  box-shadow: 0 15px 40px rgba(212, 175, 55, 0.2);
+}
+
+/* Gold Gradient Button */
+.btnSubscr {
+  background: linear-gradient(135deg, #d4af37 0%, #aa8803 100%);
+  color: #3b2323 !important; /* Dark text on gold button for readability */
+  border: none;
+  font-weight: 700;
+  box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btnSubscr:hover {
+  background: linear-gradient(135deg, #aa8803 0%, #d4af37 100%);
+  transform: translateY(-2px);
+  box-shadow: 0 12px 25px rgba(212, 175, 55, 0.5);
+}
+
+/* 3D and Floating effects (from your previous code) */
 .orb-canvas {
   transition: transform 0.4s ease-out;
   transform-style: preserve-3d;
   will-change: transform;
 }
 
-/* The floating animation for images */
 .img-floating {
   animation: floatImage 6s ease-in-out infinite;
 }
@@ -17,68 +65,16 @@
 
 .card__grid {
   display: grid;
-grid-template-columns: 280px;
-  place-content:center;
-gap:2em;
+  grid-template-columns: 1fr;
+  place-content: center;
+  gap: 1.5rem;
 }
 
-.card--1 {
-  align-self: start;
+@media screen and (min-width: 1280px) {
+  .card__grid {
+    grid-template-columns: repeat(2, 1fr);
+    grid-template-rows: repeat(3, auto);
+    column-gap: 2rem;
+    row-gap: 1.5rem;
+  }
 }
-.card--2 {
-   align-self: start;
-}
-.card--3 {
-  align-self: start;
-}
-.card--4 {
-    align-self: end;
-}
-.span__{
-  color: #d4af37;
-}
-
-.btnSubscr{
- background: linear-gradient(to bottom, #d4af37, #aa8803);
-    color: white;
-    border-radius: 50px;
-    box-shadow: 0 10px 30px rgba(177, 151, 151, 0.3);
-  
-}
-@media screen and (min-width:1280px){
-.card__grid {
-  display: grid;
-grid-template-columns: repeat(auto-fit,minmax(3.75em,1fr)); 
-  grid-template-rows: 7.375em 12em 7.375em; 
-    column-gap:2em;
-  row-gap:2.1em;
-}
-
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-        /* ===== CSS Reset e Variáveis Globais ===== */
-     

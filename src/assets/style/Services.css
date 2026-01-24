@@ -1,3 +1,63 @@
+/* Swiper specific overrides */
+.services-swiper {
+  padding: 40px 10px 80px 10px !important; /* Space for pagination & hover lift */
+}
+
+/* Custom Navigation Buttons */
+.slider-controls {
+  position: absolute;
+  top: 50%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  z-index: 10;
+  pointer-events: none;
+  transform: translateY(-50%);
+}
+
+.custom-prev, .custom-next {
+  background: rgba(212, 175, 55, 0.1);
+  border: 1px solid rgba(212, 175, 55, 0.4);
+  color: #d4af37;
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  pointer-events: auto;
+  transition: 0.3s all ease;
+  backdrop-filter: blur(5px);
+}
+
+.custom-prev:hover, .custom-next:hover {
+  background: #d4af37;
+  color: #000;
+  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
+}
+
+/* Pagination Dots */
+.swiper-pagination-bullet {
+  background: rgba(212, 175, 55, 0.3) !important;
+  opacity: 1 !important;
+}
+
+.swiper-pagination-bullet-active {
+  background: #d4af37 !important;
+  width: 25px !important; /* Elongated active dot for modern look */
+  border-radius: 5px !important;
+}
+
+/* Keep your existing .service-card styles, but remove the fixed width 
+   from .services-grid since Swiper handles widths now. */
+.service-card {
+  height: 100%; /* Ensures all cards in the slider have same height */
+  margin-top: 20px;
+}
+
+
+
 .services-section {
   background-color: #000000; /* Black background to make glass pop */
   padding: 80px 20px;

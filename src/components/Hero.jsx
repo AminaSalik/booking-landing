@@ -36,7 +36,7 @@ export default function Hero() {
       <p className="xl:leading-9 text-gray-300 xl:text-lg mt-3 mb-10">
         Streamline your schedule and give your clients the seamless booking experience they deserve.
       </p>
-      
+          
       <button className="btnSubscr text-white rounded-full py-4 px-8 tracking-wider text-sm font-bold hover:scale-105 transition-transform shadow-lg inline-block">
         BOOKING NOW
       </button>
@@ -119,6 +119,7 @@ export default function Hero() {
       <h2 className="text-3xl font-bold sm:text-4xl md:text-5xl text-white">
         Stop Wasting Time on <span className="text-yellow-500">Manual Scheduling</span>
       </h2>
+           <div className="gold-underline"></div>
       <p className="py-8 text-lg text-gray-300 intro sm:max-w-3xl mx-auto">
         We solved the biggest headaches in appointment booking so you can focus on what you do best.
       </p>

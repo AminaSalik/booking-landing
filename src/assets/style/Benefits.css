@@ -1,121 +1,28 @@
-/* Color Palette: #3b2323 (Brown), #d4af37 (Gold), #000 (Black) */
-
-.benefits-section {
-  background-color: #000;
-  overflow: hidden;
-}
-
-.text-gold {
-  color: #d4af37;
-}
-
-.benefits-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
-  gap: 40px;
-  justify-items: center;
-}
-
-/* Wrapper for the Animated Border */
-.glass-card-wrapper {
-  position: relative;
+/* Progress Bar specific to Benefits inside the Service Card style */
+.progress-bar-container {
   width: 100%;
-  max-width: 380px;
-  padding: 2px; /* This creates the border thickness */
-  border-radius: 24px;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-/* The Animated Gradient Background (The Border) */
-.glass-card-wrapper::before {
-  content: "";
-  position: absolute;
-  width: 150%;
-  height: 150%;
-  background: conic-gradient(
-    transparent, 
-    #d4af37, 
-    transparent 30%
-  );
-  animation: rotateBorder 4s linear infinite;
-}
-
-@keyframes rotateBorder {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
-
-/* The actual Glass Card */
-.glass-card {
-  position: relative;
-  z-index: 1;
-  width: 100%;
-  background: rgba(59, 35, 35, 0.7); /* Your brown #3b2323 with opacity */
-  backdrop-filter: blur(15px);
-  -webkit-backdrop-filter: blur(15px);
-  border-radius: 22px;
-  padding: 35px;
-  transition: transform 0.1s ease-out;
-  transform-style: preserve-3d;
-}
-
-.glass-card-content {
-  transform: translateZ(30px); /* 3D pop effect */
-}
-
-.glass-card h2 {
-  font-size: 1.6rem;
-  font-weight: 700;
-  margin-bottom: 1.5rem;
-}
-
-.glass-card p {
-  color: #e0e0e0;
-  line-height: 1.7;
-  font-size: 0.95rem;
-}
-
-/* Progress Bar Styling */
-.progress-bar {
-  width: 100%;
-  height: 4px;
+  height: 6px;
   background: rgba(255, 255, 255, 0.1);
   border-radius: 10px;
   margin-bottom: 20px;
   overflow: hidden;
 }
 
-.progress {
+.progress-bar-fill {
   height: 100%;
   background: linear-gradient(90deg, #3b2323, #d4af37);
   border-radius: 10px;
+  transition: width 1s ease-in-out;
 }
 
-/* Glass Button */
-.benefit-btn {
-  margin-top: 25px;
-  padding: 10px 25px;
-  background: rgba(212, 175, 55, 0.1);
-  border: 1px solid #d4af37;
-  color: #d4af37;
-  border-radius: 12px;
-  cursor: pointer;
-  transition: 0.3s;
-  font-weight: 600;
+/* Ensure descriptions have consistent spacing */
+.service-card p {
+  min-height: 80px; /* Keeps cards aligned if text lengths vary */
 }
 
-.benefit-btn:hover {
-  background: #d4af37;
-  color: #3b2323;
-  box-shadow: 0 0 20px rgba(212, 175, 55, 0.4);
-}
-
-/* Mobile Responsiveness */
-@media (max-width: 768px) {
-  .benefits-grid {
-    grid-template-columns: 1fr;
-  }
+/* Reusing your Service Card hover effects */
+.service-card:hover {
+  transform: translateY(-10px);
+  border-color: #d4af37;
+  background: rgba(59, 35, 35, 0.4);
 }

@@ -17,7 +17,11 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Navigation Bar */}
+      {/* Navigation Bar */}  <div className="particles-container" id="particles">
+
+
+        
+      </div>
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">GLOW<span className="span__">APP</span></div>
@@ -44,10 +48,12 @@ export default function Navbar() {
       </nav>
 
       {/* Hero Section */}
+
+    
       <section className="hero">
         <div className="hero-background">
           <div className="gradient-bg" />
-          <div className="particles-container" id="particles" />
+          <div  />
           <div className="floating-shapes">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className={`shape shape-${i}`} />

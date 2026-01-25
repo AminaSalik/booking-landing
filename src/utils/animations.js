@@ -1,75 +1,75 @@
 /* =========================
    Particle System
 ========================= */
-export class ParticleSystem {
-  constructor() {
-    this.particles = []
-    this.container = document.getElementById("particles")
-    this.mouseX = 0
-    this.mouseY = 0
+// export class ParticleSystem {
+//   constructor() {
+//     this.particles = []
+//     this.container = document.getElementById("particles")
+//     this.mouseX = 0
+//     this.mouseY = 0
 
-    if (!this.container) return
+//     if (!this.container) return
 
-    this.init()
-  }
+//     this.init()
+//   }
 
-  init() {
-    for (let i = 0; i < 50; i++) {
-      this.createParticle()
-    }
+//   init() {
+//     for (let i = 0; i < 50; i++) {
+//       this.createParticle()
+//     }
 
-    document.addEventListener("mousemove", (e) => {
-      this.mouseX = e.clientX
-      this.mouseY = e.clientY
-    })
+//     document.addEventListener("mousemove", (e) => {
+//       this.mouseX = e.clientX
+//       this.mouseY = e.clientY
+//     })
 
-    this.animate()
-  }
+//     this.animate()
+//   }
 
-  createParticle() {
-    const particle = document.createElement("div")
-    particle.className = "particle"
+//   createParticle() {
+//     const particle = document.createElement("div")
+//     particle.className = "particle"
 
-    const size = Math.random() * 4 + 1
-    const x = Math.random() * window.innerWidth
-    const y = Math.random() * window.innerHeight
+//     const size = Math.random() * 4 + 1
+//     const x = Math.random() * window.innerWidth
+//     const y = Math.random() * window.innerHeight
 
-    particle.style.width = `${size}px`
-    particle.style.height = `${size}px`
-    particle.style.left = `${x}px`
-    particle.style.top = `${y}px`
+//     particle.style.width = `${size}px`
+//     particle.style.height = `${size}px`
+//     particle.style.left = `${x}px`
+//     particle.style.top = `${y}px`
 
-    particle.x = x
-    particle.y = y
-    particle.speedX = (Math.random() - 0.5) * 0.6
-    particle.speedY = (Math.random() - 0.5) * 0.6
+//     particle.x = x
+//     particle.y = y
+//     particle.speedX = (Math.random() - 0.5) * 0.6
+//     particle.speedY = (Math.random() - 0.5) * 0.6
 
-    this.container.appendChild(particle)
-    this.particles.push(particle)
-  }
+//     this.container.appendChild(particle)
+//     this.particles.push(particle)
+//   }
 
-  animate() {
-    this.particles.forEach((particle) => {
-      particle.x += particle.speedX
-      particle.y += particle.speedY
+//   animate() {
+//     this.particles.forEach((particle) => {
+//       particle.x += particle.speedX
+//       particle.y += particle.speedY
 
-      const dx = this.mouseX - particle.x
-      const dy = this.mouseY - particle.y
-      const distance = Math.sqrt(dx * dx + dy * dy)
+//       const dx = this.mouseX - particle.x
+//       const dy = this.mouseY - particle.y
+//       const distance = Math.sqrt(dx * dx + dy * dy)
 
-      if (distance < 120) {
-        const force = (120 - distance) / 120
-        particle.x -= dx * force * 0.01
-        particle.y -= dy * force * 0.01
-      }
+//       if (distance < 120) {
+//         const force = (120 - distance) / 120
+//         particle.x -= dx * force * 0.01
+//         particle.y -= dy * force * 0.01
+//       }
 
-      particle.style.left = `${particle.x}px`
-      particle.style.top = `${particle.y}px`
-    })
+//       particle.style.left = `${particle.x}px`
+//       particle.style.top = `${particle.y}px`
+//     })
 
-    requestAnimationFrame(() => this.animate())
-  }
-}
+//     requestAnimationFrame(() => this.animate())
+//   }
+// }
 
 /* =========================
    Image Hover / Tilt Controller

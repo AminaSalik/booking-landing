@@ -2,13 +2,13 @@ import React, { useEffect, useState } from "react";
 import "../assets/style/Navbar.css";
 import Booking from "../assets/img/Booking.png";
 import { Link } from 'react-router-dom';
-import { ParticleSystem, OrbController, BackgroundController, ButtonController } from "../utils/animations";
+import {OrbController, BackgroundController, ButtonController } from "../utils/animations";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    const particleSystem = new ParticleSystem();
+    // const particleSystem = new ParticleSystem();
     const orb = new OrbController();
     const background = new BackgroundController();
     const buttons = new ButtonController();
@@ -17,11 +17,7 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Navigation Bar */}  <div className="particles-container" id="particles">
-
-
-        
-      </div>
+   
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">GLOW<span className="span__">APP</span></div>

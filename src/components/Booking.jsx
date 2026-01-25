@@ -141,7 +141,7 @@ function BookingApp() {
         const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
         const calendarDays = [];
 
-        // حل مشكلة يوم 24: تصفير الوقت للمقارنة الدقيقة مع تاريخ اليوم
+        
         const startOfToday = new Date();
         startOfToday.setHours(0, 0, 0, 0);
 
@@ -181,11 +181,11 @@ function BookingApp() {
         return `${hour % 12 || 12}:${min.toString().padStart(2, '0')} ${ampm}`;
     };
 
-    // إصلاح الخطأ: استخدام import.meta.env لـ Vite مع رقم احتياطي مباشر
+ 
     const finalWhatsAppNumber = import.meta.env?.VITE_WHATSAPP_NUMBER || "212638798360";
     
     const getWhatsAppLink = () => {
-        const text = `Hello AMALYZE, I'd like to confirm my booking:\n\n👤 Name: ${firstName} ${lastName}\n📅 Date: ${selectedDate || '---'}\n⏰ Time: ${formatTimeDisplay(selectedTime) || '---'}`;
+        const text = `Hello AMALYZE, I'd like to confirm my booking:\n\n👤 Name: ${firstName} ${lastName}\n📅 Date: ${selectedDate }\n⏰ Time: ${formatTimeDisplay(selectedTime) }`;
         return `https://wa.me/${finalWhatsAppNumber}?text=${encodeURIComponent(text)}`;
     };
 

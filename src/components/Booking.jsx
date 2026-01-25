@@ -52,32 +52,39 @@ function BookingApp() {
         return Object.keys(tempErrors).length === 0;
     };
 
-
+    // 1. دالة إرسال الكود للعميل (أي إيميل يدخله)
     const handleSendCode = async () => {
         if (!validateForm()) return;
         setIsSubmitting(true);
+
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedOtp(otp);
 
         const templateParams = {
             to_name: firstName,
-            to_email: email,
+            to_email: email.trim().toLowerCase(), // يرسل للإيميل المكتوب في الفورم
             otp_code: otp,
             from_name: "AMALYZE"
         };
 
         try {
-            emailjs.init("aeA09BV8gXTdUDj0l");
-            await emailjs.send('service_8x55t1g', 'template_ns3ljzk', templateParams, 'aeA09BV8gXTdUDj0I');
+            await emailjs.send(
+                'service_8x55t1g', 
+                'template_ns3ljzk', 
+                templateParams, 
+                'aeA09BV8gXTdUDj0I'
+            );
             setStep(4);
-            triggerToast("Verification code sent to email! 📧");
+            triggerToast("Verification code sent to your email! 📧");
         } catch (error) {
-            triggerToast("Error sending Email.", true);
+            console.error("EmailJS Error:", error);
+            triggerToast("Error sending verification code.", true);
         } finally {
             setIsSubmitting(false);
         }
     };
 
+    // 2. دالة التأكد من الكود وحفظ البيانات في الداشبورد (Firestore)
     const handleVerifyAndBook = async () => {
         if (verificationCode !== generatedOtp) {
             triggerToast("Invalid code. Try again.", true);
@@ -91,7 +98,7 @@ function BookingApp() {
             const bookingData = {
                 firstName: firstName.trim(),
                 lastName: lastName.trim(),
-                email: email.trim(),
+                email: email.trim().toLowerCase(),
                 number: "+" + number,
                 date: selectedDate,
                 time: selectedTime,
@@ -99,10 +106,12 @@ function BookingApp() {
                 createdAt: serverTimestamp()
             };
 
+            // حفظ البيانات في Firestore لتظهر في الداشبورد
             await addDoc(collection(db, "bookings"), bookingData);
 
+            // إشعار الأدمن (أنت) بوجود حجز جديد
             const adminTemplateParams = {
-                admin_email: "aminasalik012@gmail.com",
+                admin_email: "aminasalik012@gmail.com", // بريدك لاستقبال التنبيهات
                 client_name: fullName,
                 date: selectedDate,
                 time: displayTime,
@@ -117,16 +126,17 @@ function BookingApp() {
                 'aeA09BV8gXTdUDj0I'
             );
 
-            triggerToast("Booking Confirmed & Admin Notified! ✅");
+            triggerToast("Booking Confirmed & Saved to Dashboard! ✅");
             setTimeout(() => resetForm(), 3000);
 
         } catch (error) {
             console.error("Booking Error:", error);
-            triggerToast("Something went wrong.", true);
+            triggerToast("Something went wrong with the database.", true);
         } finally {
             setIsSubmitting(false);
         }
     };
+
     const resetForm = () => {
         setStep(1); setSelectedDate(null); setSelectedTime(null);
         setFirstName(''); setLastName(''); setNumber(''); setEmail('');
@@ -195,7 +205,6 @@ function BookingApp() {
                 <div className="booking-container glass-card">
                     <header className="booking-header">
                         <h2 className="text-white">Appointment Booking</h2>
-
                         <div style={{ margin: '10px 0', textAlign: 'center' }}>
                             <p style={{ color: '#fff', fontSize: '14px', opacity: 0.9 }}>
                                 {selectedDate ? `${selectedDate} ${selectedTime ? `at ${formatTimeDisplay(selectedTime)}` : ''}` : 'Select a date and time'}
@@ -275,7 +284,7 @@ function BookingApp() {
                     {step === 3 && (
                         <div className="booking-card-inner">
                             <div className="booking-inner-header">
-                                <h3 className="text-white">Your Details </h3>
+                                <h3 className="text-white">Your Details</h3>
                                 <button className="back-link" onClick={() => setStep(2)}>Back</button>
                             </div>
                             <div className="booking-form-group">

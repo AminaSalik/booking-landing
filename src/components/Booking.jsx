@@ -9,7 +9,7 @@ import 'react-phone-input-2/lib/style.css';
 function BookingApp() {
 
     const today = new Date();
-    today.setHours(0, 0, 0, 0); 
+    today.setHours(0, 0, 0, 0);
 
     const [step, setStep] = useState(1);
     const [currentMonth, setCurrentMonth] = useState(today.getMonth());
@@ -189,7 +189,7 @@ function BookingApp() {
     };
 
     return (
-        <div className="booking-page-wrapper">
+        <div className="booking-page-wrapper" id="booking-section">
             <div className="booking-side-image">
                 <div className="image-content-overlay">
                     <h1>Experience Excellence</h1>
@@ -320,10 +320,9 @@ function BookingApp() {
                 </svg>
             </a>
 
-            {/* 🔥 التحديث هنا: تم ربط خلفية التوست بالحالة */}
-            <div 
+            <div
                 className={`booking-toast-notification ${showToast ? 'booking-show' : ''}`}
-                style={{ 
+                style={{
                     backgroundColor: toastMessage.isError ? '#e63946' : '#2a9d8f', // أحمر للخطأ وأخضر للنجاح
                     color: '#fff',
                     padding: '12px 20px',

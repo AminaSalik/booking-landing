@@ -2,38 +2,48 @@ import React, { useEffect, useState } from "react";
 import "../assets/style/Navbar.css";
 import Booking from "../assets/img/Booking.png";
 import { Link } from 'react-router-dom';
-import {OrbController, BackgroundController, ButtonController } from "../utils/animations";
+import { OrbController, BackgroundController, ButtonController } from "../utils/animations";
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   useEffect(() => {
-    // const particleSystem = new ParticleSystem();
+
     const orb = new OrbController();
     const background = new BackgroundController();
     const buttons = new ButtonController();
-    return () => {};
+    return () => { };
   }, []);
+
+
+  const scrollToBooking = () => {
+    const bookingSection = document.getElementById('booking-section');
+    if (bookingSection) {
+      bookingSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <>
-   
+
       <nav className="navbar">
         <div className="nav-container">
           <div className="nav-logo">GLOW<span className="span__">APP</span></div>
-          
+
           <div className={`nav-links ${isMenuOpen ? "active" : ""}`}>
-    {/* 2. تغيير وسم a إلى Link وتغيير href إلى to */}
-    <Link 
-        to="/admin" 
-        className="admin-link" 
-        onClick={() => setIsMenuOpen(false)}
-    >
-        Login
-    </Link>
-    
-    <button className="btn nav-btn">Booking Now</button>
-</div>
+
+            <Link
+              to="/admin"
+              className="admin-link"
+              onClick={() => setIsMenuOpen(false)}
+            >
+              Login
+            </Link>
+
+            <button className="btn nav-btn" onClick={scrollToBooking}>
+              Booking Now
+            </button>
+          </div>
 
           <div className="mobile-menu-icon" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             <div className={`line ${isMenuOpen ? "open" : ""}`}></div>
@@ -43,13 +53,10 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Hero Section */}
-
-    
       <section className="hero">
         <div className="hero-background">
           <div className="gradient-bg" />
-          <div  />
+          <div />
           <div className="floating-shapes">
             {[1, 2, 3, 4, 5, 6].map((i) => (
               <div key={i} className={`shape shape-${i}`} />
@@ -67,7 +74,10 @@ export default function Navbar() {
               A simple and elegant appointment booking page designed to turn visitors into real clients.
             </p>
             <div className="hero-buttons">
-              <button className="btn btn-primary">Booking Now</button>
+
+              <button className="btn btn-primary" onClick={scrollToBooking}>
+                Booking Now
+              </button>
               <button className="btn btn-secondary">Admin Panel</button>
             </div>
           </div>

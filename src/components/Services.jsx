@@ -3,7 +3,6 @@ import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Pagination, Navigation } from 'swiper/modules';
 import { Shield, Clock, Smartphone, Zap, ChevronLeft, ChevronRight, X } from 'lucide-react';
 
-// Import Swiper styles
 import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
@@ -12,7 +11,6 @@ import '../assets/style/Services.css';
 export default function Services() {
   const [selectedService, setSelectedService] = useState(null);
 
-  // Prevent background scroll when modal is open
   useEffect(() => {
     if (selectedService) {
       document.body.style.overflow = 'hidden';
@@ -22,40 +20,40 @@ export default function Services() {
   }, [selectedService]);
 
   const services = [
-    { 
-      title: "Real-time Scheduling", 
-      desc: "Instant synchronization across all your devices with 0.1s latency.", 
+    {
+      title: "Real-time Scheduling",
+      desc: "Instant synchronization across all your devices with 0.1s latency.",
       fullDetails: "Our proprietary sync engine ensures that every appointment made on mobile, web, or tablet updates instantly. Includes time-zone detection and buffer-time management to prevent any scheduling conflicts.",
-      icon: <Clock size={32} />, 
-      tag: "Popular" 
+      icon: <Clock size={32} />,
+      tag: "Popular"
     },
-    { 
-      title: "Secure Payments", 
-      desc: "Integrated stripe and paypal processing with end-to-end encryption.", 
+    {
+      title: "Secure Payments",
+      desc: "Integrated stripe and paypal processing with end-to-end encryption.",
       fullDetails: "Handle deposits, full payments, and tips securely. We utilize PCI-compliant gateways to ensure your revenue and client data are always protected with 256-bit encryption.",
-      icon: <Shield size={32} />, 
-      tag: "Secure" 
+      icon: <Shield size={32} />,
+      tag: "Secure"
     },
-    { 
-      title: "Smart Reminders", 
-      desc: "Automated WhatsApp and Email alerts to reduce no-shows by 90%.", 
+    {
+      title: "Smart Reminders",
+      desc: "Automated WhatsApp and Email alerts to reduce no-shows by 90%.",
       fullDetails: "Customizable templates allow you to send reminders 24h or 1h before. Clients can confirm or reschedule directly from the notification, automatically updating your dashboard.",
-      icon: <Zap size={32} />, 
-      tag: "Automated" 
+      icon: <Zap size={32} />,
+      tag: "Automated"
     },
-    { 
-      title: "Mobile App Control", 
-      desc: "Manage your entire business dashboard from the palm of your hand.", 
+    {
+      title: "Mobile App Control",
+      desc: "Manage your entire business dashboard from the palm of your hand.",
       fullDetails: "The native iOS and Android apps allow you to view daily reports, block dates, and chat with customers while you are on the move. Stay connected to your business 24/7.",
-      icon: <Smartphone size={32} />, 
-      tag: "Mobile" 
+      icon: <Smartphone size={32} />,
+      tag: "Mobile"
     },
-    { 
-      title: "Cloud Analytics", 
-      desc: "Deep insights into your business performance with AI-driven reports.", 
+    {
+      title: "Cloud Analytics",
+      desc: "Deep insights into your business performance with AI-driven reports.",
       fullDetails: "Track your most popular services, peak hours, and customer retention rates with visual graphs and exportable CSV reports to help you grow your brand.",
-      icon: <Zap size={32} />, 
-      tag: "Insight" 
+      icon: <Zap size={32} />,
+      tag: "Insight"
     }
   ];
 
@@ -100,15 +98,12 @@ export default function Services() {
             </SwiperSlide>
           ))}
 
-          {/* Custom Navigation Arrows */}
           <div className="slider-controls">
             <button className="custom-prev"><ChevronLeft size={24} /></button>
             <button className="custom-next"><ChevronRight size={24} /></button>
           </div>
         </Swiper>
       </div>
-
-      {/* --- FROSTED GLASS MODAL --- */}
       {selectedService && (
         <div className="modal-overlay" onClick={() => setSelectedService(null)}>
           <div className="modal-content" onClick={(e) => e.stopPropagation()}>

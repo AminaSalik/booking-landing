@@ -3,7 +3,7 @@ import "../assets/style/Hero.css";
 import Benefits_ from "./Benefits"
 import Services  from './Services'
 import Navbar from "./Navbar"
-import Booking from "./booking" 
+import Booking from "./Booking" 
 import Doctor from '../assets/img/Doctor.png'
 import Lawyer from '../assets/img/Lawyer.png'
 import Teacher from '../assets/img/Teacher.png'

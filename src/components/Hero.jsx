@@ -151,7 +151,7 @@ export default function Hero() {
         <img className="rounded-lg shadow-xl img-floating border" src={Solution} alt="WhatsApp Integration" />
       </div>
       <div className="flex flex-col justify-center sm:w-1/2 md:w-7/12 sm:pl-16 text-white">
-        <div className="text-red-500 font-bold mb-2 text-sm uppercase tracking-widest">The Problem</div>
+        <div className="text-green-500 font-bold mb-2 text-sm uppercase tracking-widest">The Solution</div>
         <h3 className="text-2xl md:text-4xl font-bold">No-Shows & Cancellations</h3>
         <p className="mt-5 text-lg text-gray-400">
           Losing money and time because clients simply forget their appointments.

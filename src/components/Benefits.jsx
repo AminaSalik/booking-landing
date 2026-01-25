@@ -31,7 +31,7 @@ export default function Benefits() {
     <section className="services-section">
       <div className="services-container">
         <div className="services-header">
-          <h2 className="gold-text">Seamless Booking, <span className="white-text">Simplified</span></h2>
+          <h2 className="gold-text">Seamless Booking <span className="white-text">Simplified</span></h2>
           <div className="gold-underline"></div>
         </div>
 

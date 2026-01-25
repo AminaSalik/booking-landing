@@ -168,6 +168,92 @@
   color: #3b2323;
 }
 
+/* Full screen background darkening and blurring */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  /* Dark tint with transparency */
+  background: rgba(0, 0, 0, 0.7); 
+  /* The "Frosted Glass" Magic */
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(15px); 
+  
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 10000;
+  animation: modalFadeIn 0.4s ease;
+}
+
+/* The Modal Box itself */
+.modal-content {
+  background: rgba(59, 35, 35, 0.85); /* Your theme brown */
+  border: 1px solid rgba(212, 175, 55, 0.5); /* Soft gold border */
+  padding: 50px 40px;
+  border-radius: 30px;
+  max-width: 450px;
+  width: 90%;
+  position: relative;
+  text-align: center;
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.6);
+  color: white;
+  animation: modalSlideUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+}
+
+.modal-desc {
+  color: #d1d1d1;
+  line-height: 1.6;
+  margin: 20px 0 30px 0;
+  font-size: 1rem;
+}
+
+/* Close Button in corner */
+.close-btn {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: #d4af37;
+  cursor: pointer;
+  transition: transform 0.3s ease;
+}
+
+.close-btn:hover {
+  transform: scale(1.2);
+}
+
+/* Modal Bottom Button */
+.modal-action-btn {
+  background: #d4af37;
+  color: #000;
+  padding: 12px 30px;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.modal-action-btn:hover {
+  background: #fff;
+  box-shadow: 0 0 15px #d4af37;
+}
+
+/* Animations */
+@keyframes modalFadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modalSlideUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
 /* Responsive adjustments */
 @media (max-width: 768px) {
   .services-grid {

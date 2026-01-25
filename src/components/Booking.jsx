@@ -184,10 +184,19 @@ function BookingApp() {
  
     const finalWhatsAppNumber = import.meta.env?.VITE_WHATSAPP_NUMBER || "212638798360";
     
-    const getWhatsAppLink = () => {
-        const text = `Hello AMALYZE, I'd like to confirm my booking:\n\n👤 Name: ${firstName} ${lastName}\n📅 Date: ${selectedDate }\n⏰ Time: ${formatTimeDisplay(selectedTime) }`;
-        return `https://wa.me/${finalWhatsAppNumber}?text=${encodeURIComponent(text)}`;
-    };
+ const getWhatsAppLink = () => {
+
+    const text = 
+`✨ *NEW APPOINTMENT REQUEST* ✨
+---------------------------------------
+👤 *Client:* ${firstName.toUpperCase()} ${lastName.toUpperCase()}
+📅 *Date:* ${selectedDate}
+⏰ *Time:* ${formatTimeDisplay(selectedTime)}
+---------------------------------------
+🚀 *Sent via AMALYZE Online Booking*`;
+
+    return `https://wa.me/${finalWhatsAppNumber}?text=${encodeURIComponent(text)}`;
+};
 
     return (
         <div className="booking-page-wrapper">

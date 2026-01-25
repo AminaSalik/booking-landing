@@ -7,7 +7,10 @@ import PhoneInput from 'react-phone-input-2';
 import 'react-phone-input-2/lib/style.css';
 
 function BookingApp() {
+
     const today = new Date();
+    today.setHours(0, 0, 0, 0); 
+
     const [step, setStep] = useState(1);
     const [currentMonth, setCurrentMonth] = useState(today.getMonth());
     const [currentYear, setCurrentYear] = useState(today.getFullYear());
@@ -52,41 +55,44 @@ function BookingApp() {
         return Object.keys(tempErrors).length === 0;
     };
 
+    const formatTimeDisplay = (time24h) => {
+        if (!time24h) return "";
+        const [hour, min] = time24h.split(':').map(Number);
+        const ampm = hour >= 12 ? 'PM' : 'AM';
+        return `${hour % 12 || 12}:${min.toString().padStart(2, '0')} ${ampm}`;
+    };
+
+
     const handleSendCode = async () => {
         if (!validateForm()) return;
         setIsSubmitting(true);
         const otp = Math.floor(100000 + Math.random() * 900000).toString();
         setGeneratedOtp(otp);
 
-        const templateParams = {
-            to_name: firstName,
-            to_email: email.trim().toLowerCase(),
-            otp_code: otp,
-            from_name: "AMALYZE"
-        };
-
         try {
-            await emailjs.send('service_8x55t1g', 'template_ns3ljzk', templateParams, 'aeA09BV8gXTdUDj0I');
+            await emailjs.send('service_8x55t1g', 'template_ns3ljzk', {
+                to_name: firstName,
+                to_email: email.trim().toLowerCase(),
+                otp_code: otp,
+                from_name: "AMALYZE"
+            }, 'aeA09BV8gXTdUDj0I');
             setStep(4);
             triggerToast("Verification code sent! 📧");
         } catch (error) {
-            console.error("EmailJS Error:", error);
             triggerToast("Error sending code.", true);
         } finally {
             setIsSubmitting(false);
         }
     };
 
+
     const handleVerifyAndBook = async () => {
         if (verificationCode !== generatedOtp) {
-            triggerToast("Invalid code.", true);
+            triggerToast("Invalid code. Try again.", true);
             return;
         }
         setIsSubmitting(true);
         try {
-            const fullName = `${firstName.trim()} ${lastName.trim()}`;
-            const displayTime = formatTimeDisplay(selectedTime);
-
             const bookingData = {
                 firstName: firstName.trim(),
                 lastName: lastName.trim(),
@@ -100,16 +106,15 @@ function BookingApp() {
 
             await addDoc(collection(db, "bookings"), bookingData);
 
-            const adminParams = {
+            await emailjs.send('service_8x55t1g', 'template_gkzhgn9', {
                 admin_email: "aminasalik012@gmail.com",
-                client_name: fullName,
+                client_name: `${firstName} ${lastName}`,
                 date: selectedDate,
-                time: displayTime,
+                time: formatTimeDisplay(selectedTime),
                 phone: "+" + number,
                 client_email: email.trim()
-            };
+            }, 'aeA09BV8gXTdUDj0I');
 
-            await emailjs.send('service_8x55t1g', 'template_gkzhgn9', adminParams, 'aeA09BV8gXTdUDj0I');
             triggerToast("Booking Confirmed! ✅");
             setTimeout(() => resetForm(), 3000);
         } catch (error) {
@@ -141,20 +146,18 @@ function BookingApp() {
         const daysInPrevMonth = new Date(currentYear, currentMonth, 0).getDate();
         const calendarDays = [];
 
-        
-        const startOfToday = new Date();
-        startOfToday.setHours(0, 0, 0, 0);
-
         for (let i = firstDay; i > 0; i--) {
             calendarDays.push({ day: daysInPrevMonth - i + 1, status: 'booking-other-month', date: null });
         }
+
         for (let d = 1; d <= daysInMonth; d++) {
             const dateStr = formatDateString(currentYear, currentMonth, d);
             const dateObj = new Date(currentYear, currentMonth, d);
             dateObj.setHours(0, 0, 0, 0);
 
             let status = 'booking-available';
-            if (dateObj < startOfToday || adminHolidays.includes(dateStr)) {
+       
+            if (dateObj < today || adminHolidays.includes(dateStr)) {
                 status = 'booking-unavailable';
             }
             calendarDays.push({ day: d, status, date: dateStr });
@@ -174,29 +177,24 @@ function BookingApp() {
         return slots;
     };
 
-    const formatTimeDisplay = (time24h) => {
-        if (!time24h) return "";
-        const [hour, min] = time24h.split(':').map(Number);
-        const ampm = hour >= 12 ? 'PM' : 'AM';
-        return `${hour % 12 || 12}:${min.toString().padStart(2, '0')} ${ampm}`;
+
+    const getWhatsAppLink = () => {
+        const phone = import.meta.env?.VITE_WHATSAPP_NUMBER || "212638798360";
+        const client = (firstName || lastName) ? `${firstName} ${lastName}`.toUpperCase() : "New Client";
+        const date = selectedDate || "Not selected";
+        const time = formatTimeDisplay(selectedTime) || "Not selected";
+
+        const message = 
+`*NEW APPOINTMENT REQUEST*
+---------------------------------------
+*Client:* ${client}
+*Date:* ${date}
+*Time:* ${time}
+---------------------------------------
+*Sent via AMALYZE Online Booking*`;
+
+        return `https://wa.me/${phone}?text=${encodeURIComponent(message)}`;
     };
-
- 
-    const finalWhatsAppNumber = import.meta.env?.VITE_WHATSAPP_NUMBER || "212638798360";
-    
- const getWhatsAppLink = () => {
-
-    const text = 
-`✨ *NEW APPOINTMENT REQUEST* ✨
----------------------------------------
-👤 *Client:* ${firstName.toUpperCase()} ${lastName.toUpperCase()}
-📅 *Date:* ${selectedDate}
-⏰ *Time:* ${formatTimeDisplay(selectedTime)}
----------------------------------------
-🚀 *Sent via AMALYZE Online Booking*`;
-
-    return `https://wa.me/${finalWhatsAppNumber}?text=${encodeURIComponent(text)}`;
-};
 
     return (
         <div className="booking-page-wrapper">
@@ -216,19 +214,34 @@ function BookingApp() {
                                 {selectedDate ? `${selectedDate} ${selectedTime ? `at ${formatTimeDisplay(selectedTime)}` : ''}` : 'Select a date and time'}
                             </p>
                         </div>
+
+                        {/* Steps Indicator */}
                         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', margin: '20px 0', padding: '0 10px' }}>
-                            {[1, 2, 3, 4].map((s) => (
-                                <div key={s} style={{
-                                    width: '30px', height: '30px', borderRadius: '50%',
-                                    display: 'flex', alignItems: 'center', justifyContent: 'center',
-                                    backgroundColor: step >= s ? '#fff' : 'rgba(255,255,255,0.1)',
-                                    color: step >= s ? '#000' : '#fff',
-                                    border: '2px solid #fff'
-                                }}>{step > s ? '✓' : s}</div>
+                            {[
+                                { id: 1, label: "Date" }, { id: 2, label: "Time" }, { id: 3, label: "Info" }, { id: 4, label: "Verify" }
+                            ].map((s, idx, arr) => (
+                                <React.Fragment key={s.id}>
+                                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flex: 1 }}>
+                                        <div style={{
+                                            width: '30px', height: '30px', borderRadius: '50%',
+                                            display: 'flex', alignItems: 'center', justifyContent: 'center',
+                                            backgroundColor: step >= s.id ? '#fff' : 'rgba(255,255,255,0.1)',
+                                            color: step >= s.id ? '#000' : '#fff',
+                                            border: '2px solid #fff'
+                                        }}>
+                                            {step > s.id ? '✓' : s.id}
+                                        </div>
+                                        <span style={{ fontSize: '10px', color: '#fff', marginTop: '5px' }}>{s.label}</span>
+                                    </div>
+                                    {idx < arr.length - 1 && (
+                                        <div style={{ height: '2px', flex: 1, backgroundColor: step > s.id ? '#fff' : 'rgba(255,255,255,0.2)', marginBottom: '15px' }}></div>
+                                    )}
+                                </React.Fragment>
                             ))}
                         </div>
                     </header>
 
+                    {/* Step 1: Calendar */}
                     {step === 1 && (
                         <div className="booking-card-inner">
                             <div className="booking-calendar-header">
@@ -251,6 +264,7 @@ function BookingApp() {
                         </div>
                     )}
 
+                    {/* Step 2: Time Slots */}
                     {step === 2 && (
                         <div className="booking-card-inner">
                             <div className="booking-inner-header">
@@ -269,6 +283,7 @@ function BookingApp() {
                         </div>
                     )}
 
+                    {/* Step 3: Information */}
                     {step === 3 && (
                         <div className="booking-card-inner">
                             <div className="booking-inner-header">
@@ -276,23 +291,24 @@ function BookingApp() {
                                 <button className="back-link" onClick={() => setStep(2)}>Back</button>
                             </div>
                             <div className="booking-form-group">
-                                <input type="text" value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" />
+                                <input type="text" className={errors.firstName ? 'error-border' : ''} value={firstName} onChange={(e) => setFirstName(e.target.value)} placeholder="First Name" />
                             </div>
                             <div className="booking-form-group">
-                                <input type="text" value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" />
+                                <input type="text" className={errors.lastName ? 'error-border' : ''} value={lastName} onChange={(e) => setLastName(e.target.value)} placeholder="Last Name" />
                             </div>
                             <div className="booking-form-group">
-                                <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email" />
+                                <input type="email" className={errors.email ? 'error-border' : ''} value={email} onChange={(e) => setEmail(e.target.value)} placeholder="Email Address" />
                             </div>
                             <div className="booking-form-group">
                                 <PhoneInput country={'ma'} value={number} onChange={phone => setNumber(phone)} containerClass="phone-container" inputClass="phone-input-field" />
                             </div>
-                            <button className="booking-confirm-btn" onClick={handleSendCode} disabled={!firstName || isSubmitting}>
-                                {isSubmitting ? "Sending..." : "Send Verification Code"}
+                            <button className="booking-confirm-btn" onClick={handleSendCode} disabled={!firstName || !lastName || !number || !email || isSubmitting}>
+                                {isSubmitting ? "Sending Code..." : "Send Verification Code"}
                             </button>
                         </div>
                     )}
 
+                    {/* Step 4: OTP Verification */}
                     {step === 4 && (
                         <div className="booking-card-inner">
                             <div className="booking-inner-header">
@@ -300,16 +316,17 @@ function BookingApp() {
                                 <button className="back-link" onClick={() => setStep(3)}>Back</button>
                             </div>
                             <div className="booking-form-group">
-                                <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} placeholder="000000" className="otp-input" style={{ textAlign: 'center', fontSize: '24px' }} />
+                                <input type="text" value={verificationCode} onChange={(e) => setVerificationCode(e.target.value)} placeholder="000000" className="otp-input" style={{ textAlign: 'center', fontSize: '24px', letterSpacing: '8px' }} />
                             </div>
-                            <button className="booking-confirm-btn" onClick={handleVerifyAndBook} disabled={isSubmitting}>
-                                {isSubmitting ? "Verifying..." : "Confirm Booking"}
+                            <button className="booking-confirm-btn" onClick={handleVerifyAndBook} disabled={verificationCode.length < 6 || isSubmitting}>
+                                {isSubmitting ? "Verifying..." : "Confirm Booking Now"}
                             </button>
                         </div>
                     )}
                 </div>
             </div>
 
+            {/* Floating WhatsApp */}
             <a href={getWhatsAppLink()} className="whatsapp-float" target="_blank" rel="noopener noreferrer">
                 <div className="whatsapp-pulse"></div>
                 <svg className="whatsapp-icon" viewBox="0 0 448 512" width="25" height="25">
@@ -317,6 +334,7 @@ function BookingApp() {
                 </svg>
             </a>
 
+            {/* Toast Notifications */}
             <div className={`booking-toast-notification ${showToast ? 'booking-show' : ''}`}>
                 <div className={`booking-toast-icon ${toastMessage.isError ? 'bg-red-500' : 'bg-green-500'}`}>
                     {toastMessage.isError ? '!' : '✓'}
